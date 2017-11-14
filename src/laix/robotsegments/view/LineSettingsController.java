@@ -10,7 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import laix.robotsegments.MainApp;
-import laix.robotsegments.util.DrawTools;
+import laix.robotsegments.model.Piston;
+import laix.robotsegments.util.DrawTool;
 
 
 public class LineSettingsController {
@@ -31,6 +32,7 @@ public class LineSettingsController {
 
     private MainApp mainApp;
     private static float X;
+    private DrawTool drawtool;
 
     public LineSettingsController() {
     }
@@ -41,9 +43,10 @@ public class LineSettingsController {
 
     @FXML
     private void initialize() {
+        drawtool = new DrawTool(canvas);
         //initial draws
-        DrawTools.clear(canvas);
-        DrawTools.basicLine(canvas);
+        drawtool.clear();
+        drawtool.drawBasicLine();
     }
 
     @FXML
@@ -51,7 +54,7 @@ public class LineSettingsController {
         drawButton.setDisable(true);
 
         //get values from fields
-        float hight = Float.valueOf( hightField.getText() ); //rect
+        float height = Float.valueOf( hightField.getText() ); //rect
         float width = Float.valueOf( widthField.getText() ); //rect
         float X0 = Float.valueOf( x0Field.getText() ); //law
         float Xk = Float.valueOf( xkField.getText() ); //law
@@ -63,18 +66,20 @@ public class LineSettingsController {
         //set number of draws
         timeline.setCycleCount( (int) N + 1 );
 
+        Piston piston = new Piston(X, canvas.getHeight()-15, width, height);
+
         KeyFrame kf = new KeyFrame(
                 Duration.millis(55),                // 1 per 55 ms
                 new EventHandler<ActionEvent>()
                 {
                     public void handle(ActionEvent ae)
                     {
-                        //System.out.println(X);
-                        DrawTools.clear(canvas);
-                        DrawTools.basicLine(canvas);
-                        DrawTools.rect(canvas, X, canvas.getHeight()-15,
-                                width, hight ); // rect
+                        drawtool.clear();
+                        drawtool.drawBasicLine();
+                        drawtool.draw(piston);
+
                         X = (X + deltaX); // law
+                        piston.setX(X);
 
                         if (X >= Xk) {
                             drawButton.setDisable(false);
