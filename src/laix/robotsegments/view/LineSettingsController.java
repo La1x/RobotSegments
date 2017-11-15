@@ -61,12 +61,11 @@ public class LineSettingsController {
         float N = Float.valueOf( NField.getText() );   //law
         X = X0;
         float deltaX = (Xk - X0) / N;
+        Piston piston = new Piston(X, canvas.getHeight()-15, width, height);
 
         Timeline timeline  = new Timeline();
         //set number of draws
         timeline.setCycleCount( (int) N + 1 );
-
-        Piston piston = new Piston(X, canvas.getHeight()-15, width, height);
 
         KeyFrame kf = new KeyFrame(
                 Duration.millis(55),                // 1 per 55 ms
