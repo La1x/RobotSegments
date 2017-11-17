@@ -21,6 +21,10 @@ public class Piston extends Point {
         this.color = Color.DARKBLUE;
     }
 
+    public void moveTo(double x) {
+        this.setX( x );
+    }
+
     public double getWidth() {
         return width;
     }
