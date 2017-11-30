@@ -4,7 +4,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import laix.robotsegments.model.Piston;
-import laix.robotsegments.model.Point;
 
 /*
  * DrawTool class for drawing on canvas.
@@ -20,6 +19,7 @@ public class DrawTool {
     }
 
     public void draw(Piston piston) {
+        graphicsContext.setFill(piston.getColor());
         this.rect(piston.getX(), piston.getY(),
                   piston.getWidth(), piston.getHeight());
     }
@@ -36,7 +36,6 @@ public class DrawTool {
     }
 
     private void rect(double x1, double y1, double w, double h) {
-        graphicsContext.setFill( Color.BLUE );
         graphicsContext.fillRect(x1, y1-h-1, w, h);
     }
 

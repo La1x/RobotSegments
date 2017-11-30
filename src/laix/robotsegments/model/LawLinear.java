@@ -5,17 +5,9 @@ public class LawLinear{
     private double V;       // speed
     private double V0;      // start speed
 
-    // times
-    //private double delta_t;             // 55 ms
-    //private double tCurrent;
-    //private double tAcceleration;       //acceleration time ms
-    //private double tSum;                // 55 ms * N
-    //private double tSteadyMotion;       //steady motion time ms
-    //private double tBraking;            //braking time ms
-
-    public LawLinear(double v0, double a, double delta_t, double tAcceleration) {
+    public LawLinear(double v0, double a, double v) {
         this.a = a;
-        this.V = 0;
+        this.V = v;
         this.V0 = v0;
         //this.delta_t = delta_t/1000;
         //this.tAcceleration = tAcceleration/1000;
@@ -45,10 +37,19 @@ public class LawLinear{
         return x;
     }
 
-    /*public double braking (double x0) {
+    public double braking (double x0, double tCurrent) {
         double x = x0 + V * tCurrent;
-        V = V - a * delta_t;
-        tCurrent = tCurrent + delta_t;
+        V = V - a * tCurrent;
+        //tCurrent = tCurrent + delta_t;
         return x;
-    }*/
+    }
+
+    @Override
+    public String toString() {
+        return "LawLinear{" +
+                "a=" + a +
+                ", V=" + V +
+                ", V0=" + V0 +
+                '}';
+    }
 }
