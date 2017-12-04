@@ -55,7 +55,6 @@ public class LineSettingsController {
         drawtool = new DrawTool(canvas);
         //initial draws
         drawtool.clear();
-        drawtool.drawBasicLine();
     }
 
     @FXML
@@ -67,7 +66,7 @@ public class LineSettingsController {
         double Xk = Double.valueOf( xkField.getText() ); //law
 
         Piston piston = new Piston(Double.valueOf( x0Field.getText() ),
-                canvas.getHeight()-15,
+                canvas.getHeight() - drawtool.DOWN_BORDER,
                 Double.valueOf( widthField.getText() ),
                 Double.valueOf( hightField.getText() ),
                 Color.GREEN
@@ -84,7 +83,7 @@ public class LineSettingsController {
         );
 
         Piston piston2 = new Piston(Double.valueOf( x0Field.getText() ),
-                canvas.getHeight()-115,
+                canvas.getHeight() - drawtool.DOWN_BORDER*6,
                 Double.valueOf( widthField.getText() ),
                 Double.valueOf( hightField.getText() ),
                 Color.DARKRED
@@ -113,18 +112,19 @@ public class LineSettingsController {
                 a -> {
                         //TODO полиморфизм для рисования разных обхектов
                         drawtool.clear();
-                        drawtool.drawBasicLine();
+                        drawtool.drawBasicLine(piston);
                         drawtool.draw(piston);
+                        drawtool.drawBasicLine(piston2);
                         drawtool.draw(piston2);
 
                         // --- TEST BLOCK ---
-                        if (piston.getX() < Xk) {
+                        if (piston.getX() <= Xk) {
                             double nextX = task.getNextX();
                             piston.moveTo( nextX );
 
                         }
 
-                        if (piston2.getX() < Xk) {
+                        if (piston2.getX() <= Xk) {
                             double nextX = task2.getNextX();
                             piston2.moveTo( nextX );
 
@@ -132,7 +132,7 @@ public class LineSettingsController {
                         if (piston.getX() >= Xk && piston2.getX() >= Xk) {
                             timeline.stop(); // TODO set flag "stop" in each piston's block
                             drawButton.setDisable(false);
-                            System.out.println("timeline stopped");
+                            System.out.println("timeline stopped\n" + "piston: " + piston.getX() + "\npiston2: " + piston2.getX());
                         }
                         // --- END ---
                     }

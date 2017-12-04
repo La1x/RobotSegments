@@ -11,7 +11,7 @@ import laix.robotsegments.model.Piston;
 public class DrawTool {
     private GraphicsContext graphicsContext;
     private Canvas canvas;
-    private final int DOWN_BORDER = 15;
+    public final int DOWN_BORDER = 15;
 
     public DrawTool(Canvas canvas) {
         this.canvas = canvas;
@@ -24,10 +24,21 @@ public class DrawTool {
                   piston.getWidth(), piston.getHeight());
     }
 
-    public void drawBasicLine() {
+    public void drawBasicLine(Piston piston) {
         graphicsContext.setStroke(Color.BLACK);
-        graphicsContext.strokeLine(0 + DOWN_BORDER,canvas.getHeight() - DOWN_BORDER,
-                canvas.getWidth() - DOWN_BORDER, canvas.getHeight() - DOWN_BORDER);
+
+        double i = 0;
+        double stop = (double) canvas.getWidth() - DOWN_BORDER - 15;
+        do {
+            graphicsContext.strokeLine(i + DOWN_BORDER,
+                                        piston.getY() + 5,
+                                        i + DOWN_BORDER + 5,
+                                        piston.getY());
+            i+=5;
+        } while (i < stop);
+
+        graphicsContext.strokeLine(0 + DOWN_BORDER, piston.getY(),
+                canvas.getWidth() - DOWN_BORDER, piston.getY());
     }
 
     public void clear() {
